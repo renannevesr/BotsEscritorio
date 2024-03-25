@@ -47,8 +47,8 @@ driver = webdriver.Chrome()
 driver.get(url)
 time.sleep(1)
 try:
-    driver.find_element(By.XPATH, '//*[@id="sgpb-popup-dialog-main-div-wrapper"]/div/img').click()
-    time.sleep(5)
+    driver.find_element(By.XPATH, '//*[@id="aceitarCookies"]').click()
+    time.sleep(1)
 except:
     pass
 driver.find_element(By.XPATH, '//*[@id="inputEmpresa"]').send_keys(codigo)
@@ -56,8 +56,10 @@ driver.find_element(By.XPATH, '//*[@id="inputUsuario"]').send_keys(login)
 driver.find_element(By.XPATH, '//*[@id="passField"]').send_keys(senha)
 time.sleep(1)
 original_window = driver.current_window_handle
-driver.find_element(By.XPATH, '//*[@id="submitButton"]').click()
+driver.find_element(By.XPATH, '//*[@id="submitButton"]').click()#atendimento antigo
 time.sleep(10)
+#driver.find_element(By.XPATH,'//*[@id="topMenu"]/span[3]/div[1]').click()
+time.sleep(1)
 try:
     driver.find_element(By.XPATH, '// *[ @ id = "topMenu"] / span[2]').click()
     time.sleep(1)
