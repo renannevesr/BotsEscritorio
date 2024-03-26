@@ -65,12 +65,12 @@ try:
    # driver.find_element(By.XPATH, '// *[ @ id = "topMenu"] / span[2]').click()
     time.sleep(1)
     # Store iframe web element
-    iframe = driver.find_element(By.XPATH, '//*[@id="bodyLayout"]/iframe[3]')
-    driver.switch_to.frame(iframe)
+    #iframe = driver.find_element(By.XPATH, '//*[@id="bodyLayout"]/iframe[3]')
+    #driver.switch_to.frame(iframe)
     driver.switch_to.new_window('tab')
     while idx < rows:
         print("idx do for=", idx)
-        beneficio = df.loc[idx, 'original']
+        beneficio = df.loc[idx, 'NB']
         url2 =f'https://promobank.online/sistema/consulta/processador.php?tipo=2&value={beneficio}&getMatriculas=false&competencia=&modoConsulta=folha_atual&tipoCampanha=&_=1700576191771'
         driver.get(url2)
         time.sleep(5)
