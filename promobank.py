@@ -56,15 +56,16 @@ driver.find_element(By.XPATH, '//*[@id="inputUsuario"]').send_keys(login)
 driver.find_element(By.XPATH, '//*[@id="passField"]').send_keys(senha)
 time.sleep(1)
 original_window = driver.current_window_handle
-driver.find_element(By.XPATH, '//*[@id="submitButton"]').click()#atendimento antigo
-time.sleep(10)
-#driver.find_element(By.XPATH,'//*[@id="topMenu"]/span[3]/div[1]').click()
+driver.find_element(By.XPATH, '//*[@id="submitButton"]').click()
+time.sleep(2)
+driver.find_element(By.XPATH,'//*[@id="topMenu"]/span[3]/div[1]').click() #atendimento antigo
+
 time.sleep(1)
 try:
-    driver.find_element(By.XPATH, '// *[ @ id = "topMenu"] / span[2]').click()
+   # driver.find_element(By.XPATH, '// *[ @ id = "topMenu"] / span[2]').click()
     time.sleep(1)
     # Store iframe web element
-    iframe = driver.find_element(By.XPATH, '//*[@id="bodyLayout"]/iframe[2]')
+    iframe = driver.find_element(By.XPATH, '//*[@id="bodyLayout"]/iframe[3]')
     driver.switch_to.frame(iframe)
     driver.switch_to.new_window('tab')
     while idx < rows:
