@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 
 url = 'https://portaldatransparencia.gov.br/servidores/consulta?ordenarPor=nome&direcao=asc'
 
-list_b = 'lista.xlsx'
+list_b = 'lista2.xlsx'
 lista = []
 df_b = pd.read_excel(list_b)
 print(df_b.head())
@@ -37,37 +37,36 @@ for i in range(rows):
         quantidade = int(len(vinculos)/10)
     except:
         print("saiu")
-
     if quantidade> 0:
         for idx in range (quantidade):
             print("quantidade=", quantidade)
             print("idx=",idx)
-            indice+=1
-            tipo =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/table/tbody/tr[{indice}]/td[2]/span')
+            indice+=1                                     
+            tipo =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/table/tbody/tr[{indice}]/td[2]/span')
             textos = [elemento.text for elemento in tipo]
             df_b.loc[i, 'Tipo'] = textos[0]
-            CPF_miolo= driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/table/tbody/tr[{indice}]/td[3]/span')
+            CPF_miolo= driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/table/tbody/tr[{indice}]/td[3]/span')
             textos = [elemento.text for elemento in CPF_miolo]
             df_b.loc[i, 'CPF_M'] = textos[0]
-            nome= driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/table/tbody/tr[{indice}]/td[4]/span')
+            nome= driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/table/tbody/tr[{indice}]/td[4]/span')
             textos = [elemento.text for elemento in nome]
             df_b.loc[i, 'Nome'] = textos[0]
-            orgao = driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/table/tbody/tr[{indice}]/td[5]/span')
+            orgao = driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/table/tbody/tr[{indice}]/td[5]/span')
             textos = [elemento.text for elemento in orgao]
             df_b.loc[i, 'Orgao'] = textos[0]
-            matricula= driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/table/tbody/tr[{indice}]/td[6]/span')
+            matricula= driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/table/tbody/tr[{indice}]/td[6]/span')
             textos = [elemento.text for elemento in matricula]
             df_b.loc[i, 'Matricula'] = textos[0]
-            situacao =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/table/tbody/tr[{indice}]/td[7]/span')
+            situacao =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/table/tbody/tr[{indice}]/td[7]/span')
             textos = [elemento.text for elemento in situacao]
             df_b.loc[i, 'Situacao'] = textos[0]
-            funcao =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/table/tbody/tr[{indice}]/td[8]/span')
+            funcao =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/table/tbody/tr[{indice}]/td[8]/span')
             textos = [elemento.text for elemento in funcao]
             df_b.loc[i, 'Funcao'] = textos[0]
-            cargo =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/table/tbody/tr[{indice}]/td[9]/span')
+            cargo =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/table/tbody/tr[{indice}]/td[9]/span')
             textos = [elemento.text for elemento in cargo]
             df_b.loc[i, 'Cargo'] = textos[0]
-            qtd =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/table/tbody/tr[{indice}]/td[10]/span')
+            qtd =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[1]/table/tbody/tr[{indice}]/td[10]/span')
             textos = [elemento.text for elemento in qtd]
             df_b.loc[i, 'Quantidade'] = textos[0]
             if quantidade > 1:
