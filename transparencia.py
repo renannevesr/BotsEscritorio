@@ -29,7 +29,7 @@ for i in range(rows):
     driver.find_element("xpath", '//*[@id="cpf"]').send_keys(cpf)
     driver.find_element("xpath", '//*[@id="id-box-filtro"]/div/div/ul/li[2]/div/div/div/div[2]/input').click()
     driver.find_element("xpath", '//*[@id="box-filtros-aplicados-com-botao"]/p/button[1]').click()
-    time.sleep(2)
+    time.sleep(4)
     print("lista=",i)
     try: 
         vinculos = driver.find_elements(By.XPATH, '//*[@id="lista"]/tbody/tr/td')
@@ -44,7 +44,7 @@ for i in range(rows):
             #print("quantidade=", quantidade)
             #print("idx=",idx)
             indice+=1
-            time.sleep(5)
+            time.sleep(2)
             try:                                     
                 tipo =driver.find_elements(By.XPATH, f'/html/body/main/div[2]/div/div[2]/div[2]/div/div[2]/div/div[{dados}]/table/tbody/tr[{indice}]/td[2]/span')
                 textos = [elemento.text for elemento in tipo]
