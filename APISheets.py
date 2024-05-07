@@ -11,10 +11,27 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = "10HaGcxcqh9gfCxgmV9zB4nT1SAT-PXi0W_jfLVBPTck"
-SAMPLE_RANGE_NAME = "Prec!A1:Z110"
+SAMPLE_RANGE_NAME = "Prec!A1:Z1110"
 
 
-def main():
+# def main():
+#   creds = None
+#   if os.path.exists("token.json"):
+#     creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+
+#   if not creds or not creds.valid:
+#     if creds and creds.expired and creds.refresh_token:
+#       creds.refresh(Request())
+#     else:
+#       flow = InstalledAppFlow.from_client_secrets_file(
+#           "credentials.json", SCOPES
+#       )
+#       creds = flow.run_local_server(port=0)
+#     with open("token.json", "w") as token:
+#       token.write(creds.to_json())
+#     service = build("sheets", "v4", credentials=creds)
+   
+def read():
   creds = None
   if os.path.exists("token.json"):
     creds = Credentials.from_authorized_user_file("token.json", SCOPES)
@@ -29,30 +46,56 @@ def main():
       creds = flow.run_local_server(port=0)
     with open("token.json", "w") as token:
       token.write(creds.to_json())
-
-  try:
-    service = build("sheets", "v4", credentials=creds)
-
-
-    sheet = service.spreadsheets()
-    result = (
+      
+  service = build("sheets", "v4", credentials=creds)
+  sheet = service.spreadsheets()
+  result = (
         sheet.values()
         .get(spreadsheetId=SAMPLE_SPREADSHEET_ID, range=SAMPLE_RANGE_NAME)
         .execute()
     )
-    values = result.get("values", [])
+  values = result.get("values", [])
+  last_prec = values[-1][0]
+  return last_prec
 
-    if not values:
-      print("No data found.")
-      return
+def write(info_prec):
+  
+  creds = None
+  if os.path.exists("token.json"):
+      creds = Credentials.from_authorized_user_file("token.json", SCOPES)
 
-    print("Name, Major:")
-    for row in values:
-      # Print columns A and E, which correspond to indices 0 and 4.
-      print(f"{row[0]}, {row[4]}")
-  except HttpError as err:
-    print(err)
+  if not creds or not creds.valid:
+      if creds and creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+      else:
+        flow = InstalledAppFlow.from_client_secrets_file(
+            "credentials.json", SCOPES
+        )
+        creds = flow.run_local_server(port=0)
+      with open("token.json", "w") as token:
+        token.write(creds.to_json())
+  service = build("sheets", "v4", credentials=creds)
+  sheet = service.spreadsheets()
+  result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
+                                range=SAMPLE_RANGE_NAME).execute()
+  values = result.get('values', [])
+  tamanho = len(values)+1
 
+    # adicionar/editar valores no Google Sheets
+  precatorio_value = info_prec.get('PRECATÓRIO', '') 
+  proc_origin_value = info_prec.get('PROC. ORIGINÁRIO Nº', '') 
+  tribunal_value = info_prec.get('TRIBUNAL', '') 
+  reqte_value = info_prec.get('REQTE', '')  
+  autuado_value = info_prec.get('AUTUADO EM', '')  
+
+
+  data_to_write = [[precatorio_value, proc_origin_value,tribunal_value, reqte_value , autuado_value]]
+  sheet.values().update(
+        spreadsheetId=SAMPLE_SPREADSHEET_ID,
+        range=f'Prec!A{tamanho}',
+        valueInputOption='RAW',
+        body={'values': data_to_write}
+    ).execute()
 
 if __name__ == "__main__":
-  main()
+  print(read())
