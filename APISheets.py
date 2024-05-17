@@ -11,7 +11,7 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = "10HaGcxcqh9gfCxgmV9zB4nT1SAT-PXi0W_jfLVBPTck"
-SAMPLE_RANGE_NAME = "Prec!A1:Z1110"
+SAMPLE_RANGE_NAME = "Prec!A1:Z12110"
 
 
 # def main():
@@ -86,10 +86,11 @@ def write(info_prec):
   proc_origin_value = info_prec.get('PROC. ORIGINÁRIO Nº', '') 
   tribunal_value = info_prec.get('TRIBUNAL', '') 
   reqte_value = info_prec.get('REQTE', '')  
+  reqte_adv_value = info_prec.get('ADV', '') 
   autuado_value = info_prec.get('AUTUADO EM', '')  
 
 
-  data_to_write = [[precatorio_value, proc_origin_value,tribunal_value, reqte_value , autuado_value]]
+  data_to_write = [[precatorio_value, proc_origin_value,tribunal_value, reqte_value, reqte_adv_value , autuado_value]]
   sheet.values().update(
         spreadsheetId=SAMPLE_SPREADSHEET_ID,
         range=f'Prec!A{tamanho}',
