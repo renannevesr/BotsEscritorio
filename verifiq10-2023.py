@@ -7,8 +7,8 @@ from selenium.webdriver.common.by import By
 url = 'https://armoney.panoramaemprestimos.com.br'
 
 login = 'rego&quintino01'
-senha = 'rego1234'
-list_b = 'lista.xlsx'
+senha = '203040'
+list_b = 'lista1.xlsx'
 #list_b = 'LISTA_b.xlsx'
 lista = []
 df_b = pd.read_excel(list_b)
@@ -90,6 +90,9 @@ for i in range(rows):
             endereco_2 = driver.find_elements(By.CLASS_NAME, 'txt4_5')
             endereco_3 = driver.find_elements(By.CLASS_NAME, 'txt4')
             tel =driver.find_elements(By.CLASS_NAME, 'clTel')
+            beneficio =driver.find_elements(By.CLASS_NAME, 'txt6')
+            #nasc = driver.find_elements(By.id,"id_fcdataNascimento")
+            idade = driver.find_element(By.XPATH, "//*[@id='id_idade']")
 
             for idx_city in endereco_cidade:
                 city = idx_city.get_attribute('value')
@@ -150,6 +153,27 @@ for i in range(rows):
                 print("UF=", UF)
             except:
                 UF =" não tem"
+                
+            try:
+                Bene = str(beneficio[0].get_attribute('value'))
+                df_b.loc[i, 'Beneficio'] = Bene
+                print("Bene=", Bene)
+            except:
+                Bene =" não tem"
+                
+            try:
+                Bene1 = str(beneficio[1].get_attribute('value'))
+                df_b.loc[i, 'Especie'] = Bene1
+                print("Bene=", Bene1)
+            except:
+                Bene1 =" não tem"
+                
+            try:
+                nasc = idade.text
+                df_b.loc[i, 'Idade'] = nasc
+                print("idade=", nasc)
+            except:
+                nasc =" não tem"
             #margem
     
             driver.find_element("xpath",
