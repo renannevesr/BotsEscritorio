@@ -3,12 +3,31 @@ import openpyxl
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+
+def calcular_data_nascimento(entrada):
+    # Dividir a entrada e extrair anos, meses e dias
+    partes = entrada.split()
+    anos = int(partes[0].replace('.a', ''))
+    meses = int(partes[1].replace('.m', ''))
+    dias = int(partes[2].replace('.d', ''))
+    
+    # Data atual
+    data_atual = datetime.now()
+    
+    # Calcular a data de nascimento
+    data_nascimento = data_atual - relativedelta(years=anos, months=meses) - timedelta(days=dias)
+    
+    # Retornar a data de nascimento formatada
+    return data_nascimento.strftime("%d/%m/%Y")
+
 
 url = 'https://armoney.panoramaemprestimos.com.br'
 
 login = 'rego&quintino01'
-senha = 'rego1234'
-list_b = 'lista.xlsx'
+senha = '203040'
+list_b = 'lista1.xlsx'
 #list_b = 'LISTA_b.xlsx'
 lista = []
 df_b = pd.read_excel(list_b)
@@ -90,7 +109,10 @@ for i in range(rows):
             endereco_2 = driver.find_elements(By.CLASS_NAME, 'txt4_5')
             endereco_3 = driver.find_elements(By.CLASS_NAME, 'txt4')
             tel =driver.find_elements(By.CLASS_NAME, 'clTel')
-
+            beneficio =driver.find_elements(By.CLASS_NAME, 'txt6')
+            data_nasc =driver.find_elements(By.CLASS_NAME, 'cal_jq masc val_data verificavel hasDatepicker')
+            print(data_nasc)
+            idade = driver.find_element(By.XPATH, "//*[@id='id_idade']")
             for idx_city in endereco_cidade:
                 city = idx_city.get_attribute('value')
             for indice in endereco:
@@ -150,6 +172,33 @@ for i in range(rows):
                 print("UF=", UF)
             except:
                 UF =" não tem"
+                
+            try:
+                Bene = str(beneficio[0].get_attribute('value'))
+                df_b.loc[i, 'Beneficio'] = Bene
+                print("Bene=", Bene)
+            except:
+                Bene =" não tem"
+                
+            try:
+                Bene1 = str(beneficio[1].get_attribute('value'))
+                df_b.loc[i, 'Especie'] = Bene1
+                print("Bene=", Bene1)
+            except:
+                Bene1 =" não tem"
+                
+            try:
+                nasc = idade.text
+                df_b.loc[i, 'Idade'] = nasc
+                print("idade=", nasc)
+            except:
+                nasc =" não tem"
+            try:
+                data_nascimento = calcular_data_nascimento(nasc)
+                df_b.loc[i, 'data_nasc'] = data_nascimento
+                print("data_nasc=", data_nascimento)
+            except:
+                nasc =" não tem"
             #margem
     
             driver.find_element("xpath",
