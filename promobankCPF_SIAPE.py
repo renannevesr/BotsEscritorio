@@ -33,6 +33,32 @@ dib = '//*[@id="tab_dados"]/div[2]/div/div/ul/li/div/div[2]/input'
 ddb ='//*[@id="tab_dados"]/div[2]/div/div/ul/li/div/div[3]/input'
 valor ='//*[@id="tab_financeiro"]/div[2]/div[1]/div/ul/li[1]/div/div[1]/input'
 situacao ='//*[@id="f_simulacao_"]/div[1]/div/div[2]/div[6]'
+
+
+tel1 = '//*[@id="f_buscaMais"]/div[2]/div[1]/table/tbody/tr[1]/td[1]/div/a'
+tel2 = '//*[@id="f_buscaMais"]/div[2]/div[1]/table/tbody/tr[2]/td[1]/div/a'
+tel3 = '//*[@id="f_buscaMais"]/div[2]/div[1]/table/tbody/tr[3]/td[1]/div/a'
+tel4 = '//*[@id="f_buscaMais"]/div[2]/div[1]/table/tbody/tr[4]/td[1]/div/a'
+end1= '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[1]/td[1]'
+numen1=  '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[1]/td[2]'
+bairro1 ='//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[1]/td[3]'
+cidade1= '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[1]/td[4]'
+cep1= '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[1]/td[6]'
+complementoend1 ='//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[1]/td[7]'
+end2= '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[2]/td[1]'
+numen2=  '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[2]/td[2]'
+bairro2 ='//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[2]/td[3]'
+cidade2= '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[2]/td[4]'
+cep2= '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[2]/td[6]'
+complementoend2 ='//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[2]/td[7]'
+end3= '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[3]/td[1]'
+numen3=  '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[3]/td[2]'
+bairro3 ='//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[3]/td[3]'
+cidade3= '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[3]/td[4]'
+cep3= '//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[3]/td[6]'
+complementoend3 ='//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[3]/td[7]'
+
+
 url = 'https://promobank.online/'
 codigo = '29028'
 login = 'regoequintino'
@@ -58,7 +84,7 @@ driver.find_element(By.XPATH, '//*[@id="passField"]').send_keys(senha)
 time.sleep(1)
 original_window = driver.current_window_handle
 driver.find_element(By.XPATH, '//*[@id="submitButton"]').click()
-time.sleep(2)
+time.sleep(3)
 driver.find_element(By.XPATH,'//*[@id="topMenu"]/span[3]/div[1]').click() #atendimento antigo
 
 time.sleep(1)
@@ -74,7 +100,8 @@ try:
         beneficio = df.loc[idx, 'CPF']
         url2 =f'https://promobank.online/sistema/consulta/processador.php?tipo=6&value={beneficio}&getMatriculas=true&tipoCampanha=&isJson=false&_=1720481550725'
         driver.get(url2)
-        time.sleep(10)
+        time.sleep(5)
+        
         nomes_variaveis = ['nome','cpf','nascimento','beneficio','telefone','endereco','bairro','cidade','uf','cep','dib','ddb','valor', 'situacao']
         for variavel in nomes_variaveis:
             try:
@@ -94,13 +121,18 @@ try:
                     dados = "sem dados"
                     df.loc[idx, f'{variavel}'] = valor
         url3=f'https://promobank.online/sistema/consulta/processador.php?tipo=15&maisContatos=maisContatos&modo_fone=buscamais&value={beneficio}'
-        
-        tel1 : //*[@id="f_buscaMais"]/div[2]/div[1]/table/tbody/tr[1]/td[1]/div/a
-        tel2 = //*[@id="f_buscaMais"]/div[2]/div[1]/table/tbody/tr[2]/td[1]/div/a
-        end1= //*[@id="f_buscaMais"]/div[3]/table/tbody/tr[1]/td[1]
-        numend1=  //*[@id="f_buscaMais"]/div[3]/table/tbody/tr[1]/td[2]
-        complementoend1 =//*[@id="f_buscaMais"]/div[3]/table/tbody/tr[1]/td[7]
-        end2= //*[@id="f_buscaMais"]/div[3]/table/tbody/tr[2]/td[1]
+        driver.get(url3)
+        time.sleep(2)
+        nomes_variaveis2 =['tel1','tel2','tel3','tel4','end1','numen1','bairro1','cidade1','cep1','complementoend1','end2','numen2','bairro2','cidade2','cep2','complementoend2','end3','numen3','bairro3','cidade3','cep3','complementoend3']
+        for variavel2 in nomes_variaveis2:
+            try:
+                    dados = driver.find_element(By.XPATH, f'{eval(variavel2)}').text
+                    print("dados:",dados)
+                    df.loc[idx, variavel2] = dados
+                    print(df)
+            except:
+                    dados = "sem dados"
+                    df.loc[idx, f'{variavel2}'] = valor
         idx+=1
 except:
     driver.switch_to.window(original_window)
