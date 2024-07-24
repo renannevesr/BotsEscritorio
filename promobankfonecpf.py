@@ -91,16 +91,11 @@ driver.find_element(By.XPATH,'//*[@id="topMenu"]/span[3]/div[1]').click() #atend
 
 time.sleep(1)
 try:
-   # driver.find_element(By.XPATH, '// *[ @ id = "topMenu"] / span[2]').click()
     time.sleep(1)
-    # Store iframe web element
-    #iframe = driver.find_element(By.XPATH, '//*[@id="bodyLayout"]/iframe[3]')
-    #driver.switch_to.frame(iframe)
     driver.switch_to.new_window('tab')
     while idx < rows:
         print("idx do for=", idx)
         beneficio = df.loc[idx, 'CPF']
-        
         # url2 =f'https://promobank.online/sistema/consulta/processador.php?tipo=6&value={beneficio}&getMatriculas=true&tipoCampanha=&isJson=false&_=1720481550725'
         # driver.get(url2)
         # time.sleep(5)
@@ -124,7 +119,7 @@ try:
         #             df.loc[idx, f'{variavel}'] = valor
         url3=f'https://promobank.online/sistema/consulta/processador.php?tipo=15&maisContatos=maisContatos&modo_fone=buscamais&value={beneficio}'
         driver.get(url3)
-        time.sleep(2)
+        time.sleep(4)
         nomes_variaveis2 =['nome', 'nasc','idad','tel1','tel2','tel3','tel4','end1','numen1','bairro1','cidade1','cep1','complementoend1','end2','numen2','bairro2','cidade2','cep2','complementoend2','end3','numen3','bairro3','cidade3','cep3','complementoend3']
         for variavel2 in nomes_variaveis2:
             try:
@@ -149,7 +144,7 @@ except:
         df[['Data_Nascimento', 'Idade']] = df['nascimento'].str.extract(r'(\d{2}/\d{2}/\d{4})\s+(\d+)\s+Anos')
     except:
         pass
-    df.to_csv("Nova.csv")
+    df.to_csv("Nova_fa.csv")
 driver.switch_to.window(original_window)
 driver.find_element(By.XPATH, '//*[@id="sidebar-shortcuts-large"]/button[3]').click()
 modal_saida_1 = driver.find_element(By.XPATH, '/html/body/div[7]/div/div/div[2]')
@@ -169,5 +164,4 @@ try:
     df[['Data_Nascimento', 'Idade']] = df['nascimento'].str.extract(r'(\d{2}/\d{2}/\d{4})\s+(\d+)\s+Anos')
 except:
     pass
-df = df.drop(columns=['beneficio','nascimento'])
-df.to_csv("Nova.csv")
+df.to_csv("Nova_fa.csv")
